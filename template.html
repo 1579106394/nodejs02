@@ -1,116 +1,147 @@
-<html><head>
-    <meta charset="UTF-8">
-    <style type="text/css">
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <style type="text/css">
     :root {
       font-family: sans-serif;
     }
+
     img {
       border: 0;
     }
+
     th {
       text-align: start;
       white-space: nowrap;
     }
-    th > a {
+
+    th>a {
       color: inherit;
     }
-    table[order] > thead > tr > th {
+
+    table[order]>thead>tr>th {
       cursor: pointer;
     }
-    table[order] > thead > tr > th::after {
+
+    table[order]>thead>tr>th::after {
       display: none;
       width: .8em;
       margin-inline-end: -.8em;
       text-align: end;
     }
-    table[order="asc"] > thead > tr > th::after {
-      content: "\2193"; /* DOWNWARDS ARROW (U+2193) */
+
+    table[order="asc"]>thead>tr>th::after {
+      content: "\2193";
+      /* DOWNWARDS ARROW (U+2193) */
     }
-    table[order="desc"] > thead > tr > th::after {
-      content: "\2191"; /* UPWARDS ARROW (U+2191) */
+
+    table[order="desc"]>thead>tr>th::after {
+      content: "\2191";
+      /* UPWARDS ARROW (U+2191) */
     }
-    table[order][order-by="0"] > thead > tr > th:first-child > a ,
-    table[order][order-by="1"] > thead > tr > th:first-child + th > a ,
-    table[order][order-by="2"] > thead > tr > th:first-child + th + th > a {
+
+    table[order][order-by="0"]>thead>tr>th:first-child>a,
+    table[order][order-by="1"]>thead>tr>th:first-child+th>a,
+    table[order][order-by="2"]>thead>tr>th:first-child+th+th>a {
       text-decoration: underline;
     }
-    table[order][order-by="0"] > thead > tr > th:first-child::after ,
-    table[order][order-by="1"] > thead > tr > th:first-child + th::after ,
-    table[order][order-by="2"] > thead > tr > th:first-child + th + th::after {
+
+    table[order][order-by="0"]>thead>tr>th:first-child::after,
+    table[order][order-by="1"]>thead>tr>th:first-child+th::after,
+    table[order][order-by="2"]>thead>tr>th:first-child+th+th::after {
       display: inline-block;
     }
-    table.remove-hidden > tbody > tr.hidden-object {
+
+    table.remove-hidden>tbody>tr.hidden-object {
       display: none;
     }
+
     td {
       white-space: nowrap;
     }
+
     table.ellipsis {
       width: 100%;
       table-layout: fixed;
       border-spacing: 0;
     }
-    table.ellipsis > tbody > tr > td {
+
+    table.ellipsis>tbody>tr>td {
       padding: 0;
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
     /* name */
+
     /* name */
+
     th:first-child {
       padding-inline-end: 2em;
     }
+
     /* size */
-    th:first-child + th {
+
+    th:first-child+th {
       padding-inline-end: 1em;
     }
-    td:first-child + td {
+
+    td:first-child+td {
       text-align: end;
       padding-inline-end: 1em;
     }
+
     /* date */
-    td:first-child + td + td {
+
+    td:first-child+td+td {
       padding-inline-start: 1em;
       padding-inline-end: .5em;
     }
+
     /* time */
-    td:first-child + td + td + td {
+
+    td:first-child+td+td+td {
       padding-inline-start: .5em;
     }
+
     .symlink {
       font-style: italic;
     }
-    .dir ,
-    .symlink ,
+
+    .dir,
+    .symlink,
     .file {
       margin-inline-start: 20px;
     }
-    .dir::before ,
-    .file > img {
+
+    .dir::before,
+    .file>img {
       margin-inline-end: 4px;
       margin-inline-start: -20px;
       max-width: 16px;
       max-height: 16px;
       vertical-align: middle;
     }
+
     .dir::before {
       content: url(resource://content-accessible/html/folder.png);
     }
-    </style>
-    <link rel="stylesheet" media="screen, projection" type="text/css" href="chrome://global/skin/dirListing/dirListing.css">
-    <script type="application/javascript">
+  </style>
+  <link rel="stylesheet" media="screen, projection" type="text/css" href="chrome://global/skin/dirListing/dirListing.css">
+  <script type="application/javascript">
     'use strict';
     var gTable, gOrderBy, gTBody, gRows, gUI_showHidden;
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
       gTable = document.getElementsByTagName("table")[0];
       gTBody = gTable.tBodies[0];
       if (gTBody.rows.length < 2)
         return;
       gUI_showHidden = document.getElementById("UI_showHidden");
       var headCells = gTable.tHead.rows[0].cells,
-          hiddenObjects = false;
+        hiddenObjects = false;
       function rowAction(i) {
-        return function(event) {
+        return function (event) {
           event.preventDefault();
           orderBy(i);
         }
@@ -174,46 +205,110 @@
     }
     function updateHidden() {
       gTable.className = gUI_showHidden.getElementsByTagName("input")[0].checked ?
-                         "" :
-                         "remove-hidden";
+        "" :
+        "remove-hidden";
     }
-    </script>
-    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8%2F9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAjFJREFUeNqsU8uOElEQPffR3XQ3ONASdBJCSBxHos5%2B3Bg3rvkCv8PElS78gPkO%2FATjQoUdO2ftrJiRh6aneTb9sOpC4weMN6lcuFV16pxDIfI8x12OYIDhcPiu2Wx%2B%2FHF5CW1Z6Jyegt%2FTNEWSJIjjGFEUIQxDrFYrWFSzXC4%2FdLvd95pRKpXKy%2BpRFZ7nwaWo1%2BsGnQG2260BKJfLKJVKGI1GEEJw7ateryd0v993W63WEwjgxfn5obGYzgCbzcaEbdsIggDj8Riu6z6iUk9SYZMSx8W0LMsM%2FSKK75xnJlIq80anQXdbEp0OhcPJ0eiaJnGRMEyyPDsAKKUM9clkYoDo3SZJzzSdp0VSKYmfV1co%2Bz580kw5KDIM8RbRfEnUf1HzxtQyMAGcaGruTKczMzEIaqhKifV6jd%2BzGQQB5llunF%2FM52BizC2K5sYPYvZcu653tjOM9O93wnYc08gmkgg4VAxixfqFUJT36AYBZGd6PJkFCZnnlBxMp38gqIgLpZB0y4Nph18lyWh5FFbrOSxbl3V4G%2BVB7T4ajYYxTyuLtO%2BCvWGgJE1Mc7JNsJEhvgw%2FQV4fo%2F24nbEsX2u1d5sVyn8sJO0ZAQiIYnFh%2BxrfLz%2Fj29cBS%2FO14zg3i8XigW3ZkErDtmKoeM%2BAJGRMnXeEPGKf0nCD1ydvkDzU9Jbc6OpR7WIw6L8lQ%2B4pQ1%2FlPF0RGM9Ns91Wmptk0GfB4EJkt77vXYj%2F8m%2B8y%2FkrwABHbz2H9V68DQAAAABJRU5ErkJggg%3D%3D">
-    <title>file:///E:/JAVA/程序2/nodejs/nodejs02 的索引</title>
-    <base href="file:///E:/JAVA/%E7%A8%8B%E5%BA%8F2/nodejs/nodejs02/">
-    </head>
-    <body dir="ltr">
-    <h1>file:///E:/JAVA/程序2/nodejs/nodejs02 的索引</h1><div id="mark_mask" style="display:none;position:fixed;top:40px;left:0;z-index:99999999;height:1000px;width:100%;background:rgba(0,0,0,0.4);"></div>
-    <p id="UI_goUp"><a class="up" href="file:///E:/JAVA/%E7%A8%8B%E5%BA%8F2/nodejs/">回到上一层文件夹</a></p>
-    <p id="UI_showHidden" style="display:none"><label><input type="checkbox" checked="" onchange="updateHidden()">显示隐藏对象</label></p>
-    <table order="">
-     <thead>
+  </script>
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8%2F9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAjFJREFUeNqsU8uOElEQPffR3XQ3ONASdBJCSBxHos5%2B3Bg3rvkCv8PElS78gPkO%2FATjQoUdO2ftrJiRh6aneTb9sOpC4weMN6lcuFV16pxDIfI8x12OYIDhcPiu2Wx%2B%2FHF5CW1Z6Jyegt%2FTNEWSJIjjGFEUIQxDrFYrWFSzXC4%2FdLvd95pRKpXKy%2BpRFZ7nwaWo1%2BsGnQG2260BKJfLKJVKGI1GEEJw7ateryd0v993W63WEwjgxfn5obGYzgCbzcaEbdsIggDj8Riu6z6iUk9SYZMSx8W0LMsM%2FSKK75xnJlIq80anQXdbEp0OhcPJ0eiaJnGRMEyyPDsAKKUM9clkYoDo3SZJzzSdp0VSKYmfV1co%2Bz580kw5KDIM8RbRfEnUf1HzxtQyMAGcaGruTKczMzEIaqhKifV6jd%2BzGQQB5llunF%2FM52BizC2K5sYPYvZcu653tjOM9O93wnYc08gmkgg4VAxixfqFUJT36AYBZGd6PJkFCZnnlBxMp38gqIgLpZB0y4Nph18lyWh5FFbrOSxbl3V4G%2BVB7T4ajYYxTyuLtO%2BCvWGgJE1Mc7JNsJEhvgw%2FQV4fo%2F24nbEsX2u1d5sVyn8sJO0ZAQiIYnFh%2BxrfLz%2Fj29cBS%2FO14zg3i8XigW3ZkErDtmKoeM%2BAJGRMnXeEPGKf0nCD1ydvkDzU9Jbc6OpR7WIw6L8lQ%2B4pQ1%2FlPF0RGM9Ns91Wmptk0GfB4EJkt77vXYj%2F8m%2B8y%2FkrwABHbz2H9V68DQAAAABJRU5ErkJggg%3D%3D">
+  <title>file:///E:/JAVA/程序2/nodejs/nodejs02 的索引</title>
+  <base href="file:///E:/JAVA/%E7%A8%8B%E5%BA%8F2/nodejs/nodejs02/">
+</head>
+
+<body dir="ltr">
+  <h1>file:///E:/JAVA/程序2/nodejs/nodejs02 的索引</h1>
+  <div id="mark_mask" style="display:none;position:fixed;top:40px;left:0;z-index:99999999;height:1000px;width:100%;background:rgba(0,0,0,0.4);"></div>
+  <p id="UI_goUp">
+    <a class="up" href="file:///E:/JAVA/%E7%A8%8B%E5%BA%8F2/nodejs/">回到上一层文件夹</a>
+  </p>
+  <p id="UI_showHidden" style="display:none">
+    <label>
+      <input type="checkbox" checked="" onchange="updateHidden()">显示隐藏对象</label>
+  </p>
+  <table order="">
+    <thead>
       <tr>
-       <th><a href="">名称</a></th>
-       <th><a href="">大小</a></th>
-       <th colspan="2"><a href="">修改时间</a></th>
+        <th>
+          <a href="">名称</a>
+        </th>
+        <th>
+          <a href="">大小</a>
+        </th>
+        <th colspan="2">
+          <a href="">修改时间</a>
+        </th>
       </tr>
-     </thead>
-     <tbody>
-    <tr>
-     <td sortable-data="201-http-helloworld.js"><table class="ellipsis"><tbody><tr><td><a class="file" href="01-http-helloworld.js"><img src="moz-icon://.js?size=16" alt="文件： ">01-http-helloworld.js</a></td></tr></tbody></table></td>
-     <td sortable-data="616">1 KB</td>
-     <td sortable-data="1540898639000000">2018/10/30 星期二</td>
-     <td>下午 7:23:59</td>
-    </tr><tr>
-     <td sortable-data="202-像Apache一样.js"><table class="ellipsis"><tbody><tr><td><a class="file" href="02-%E5%83%8FApache%E4%B8%80%E6%A0%B7.js"><img src="moz-icon://.js?size=16" alt="文件： ">02-像Apache一样.js</a></td></tr></tbody></table></td>
-     <td sortable-data="478">1 KB</td>
-     <td sortable-data="1540899503000000">2018/10/30 星期二</td>
-     <td>下午 7:38:23</td>
-    </tr><tr>
-     <td sortable-data="203-Apache-目录列表.js"><table class="ellipsis"><tbody><tr><td><a class="file" href="03-Apache-%E7%9B%AE%E5%BD%95%E5%88%97%E8%A1%A8.js"><img src="moz-icon://.js?size=16" alt="文件： ">03-Apache-目录列表.js</a></td></tr></tbody></table></td>
-     <td sortable-data="478">1 KB</td>
-     <td sortable-data="1540899767000000">2018/10/30 星期二</td>
-     <td>下午 7:42:47</td>
-    </tr><tr>
-     <td sortable-data="2template.html"><table class="ellipsis"><tbody><tr><td><a class="file" href="template.html"><img src="moz-icon://.html?size=16" alt="文件： ">template.html</a></td></tr></tbody></table></td>
-     <td sortable-data="274">1 KB</td>
-     <td sortable-data="1540899840000000">2018/10/30 星期二</td>
-     <td>下午 7:44:00</td>
-    </tr></tbody></table>
-    </body></html>
+    </thead>
+    <tbody>
+      <tr>
+        <td sortable-data="201-http-helloworld.js">
+          <table class="ellipsis">
+            <tbody>
+              <tr>
+                <td>
+                  <a class="file" href="01-http-helloworld.js">
+                    <img src="moz-icon://.js?size=16" alt="文件： ">01-http-helloworld.js</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        <td sortable-data="616">1 KB</td>
+        <td sortable-data="1540898639000000">2018/10/30 星期二</td>
+        <td>下午 7:23:59</td>
+      </tr>
+      <tr>
+        <td sortable-data="202-像Apache一样.js">
+          <table class="ellipsis">
+            <tbody>
+              <tr>
+                <td>
+                  <a class="file" href="02-%E5%83%8FApache%E4%B8%80%E6%A0%B7.js">
+                    <img src="moz-icon://.js?size=16" alt="文件： ">02-像Apache一样.js</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        <td sortable-data="478">1 KB</td>
+        <td sortable-data="1540899503000000">2018/10/30 星期二</td>
+        <td>下午 7:38:23</td>
+      </tr>
+      <tr>
+        <td sortable-data="203-Apache-目录列表.js">
+          <table class="ellipsis">
+            <tbody>
+              <tr>
+                <td>
+                  <a class="file" href="03-Apache-%E7%9B%AE%E5%BD%95%E5%88%97%E8%A1%A8.js">
+                    <img src="moz-icon://.js?size=16" alt="文件： ">03-Apache-目录列表.js</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        <td sortable-data="478">1 KB</td>
+        <td sortable-data="1540899767000000">2018/10/30 星期二</td>
+        <td>下午 7:42:47</td>
+      </tr>
+      <tr>
+        <td sortable-data="2template.html">
+          <table class="ellipsis">
+            <tbody>
+              <tr>
+                <td>
+                  <a class="file" href="template.html">
+                    <img src="moz-icon://.html?size=16" alt="文件： ">template.html</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        <td sortable-data="274">1 KB</td>
+        <td sortable-data="1540899840000000">2018/10/30 星期二</td>
+        <td>下午 7:44:00</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+
+</html>

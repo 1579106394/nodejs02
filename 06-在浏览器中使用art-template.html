@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 注意：在浏览器中需要引用 -->
+    <script src="./node_modules/art-template/lib/template-web.js"></script>
+
+    <script type="text/template" id="tpl">
+        hello {{ name }}
+        我今年{{ age }}岁
+        我喜欢{{ each hobbies }} { {$value }} {{ /each }}
+    </script>
+    <script>
+        var ret = template('tpl', {
+            name: 'Jack',
+            age: 18,
+            hobbies: [
+                '写代码',
+                '唱歌',
+                '打游戏'
+            ]
+        })
+
+        console.log(ret)
+    </script>
+
+</body>
+
+</html>

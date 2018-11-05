@@ -2,14 +2,16 @@ var http = require('http')
 
 var fs = require('fs')
 
+var template = require('art-template')
+
 var server = http.createServer()
 
 var wwwDir = 'D:/www'
 
 server.on('request', (req, res) => {
-  var url = req.url
+  var url = + req.url
 
-  fs.readFile('./template.html', (err, data) => {
+  fs.readFile('./tpl.html', (err, data) => {
     if (err) {
       return res.end('404 Not Found')
     }
@@ -19,9 +21,20 @@ server.on('request', (req, res) => {
       if (err) {
         return res.end('没有找到www目录')
       }
-      console.log(files)
+
+      // 第一个参数是原始数据，第二个是模板数据
+      var htmlStr = template.render(data.toString(), {
+        name: 'Jack',
+        age: 18,
+        hobbies: [
+          '写代码',
+          '唱歌',
+          '打游戏'
+        ],
+        files: files
+      })
+      res.end(htmlStr)
     })
-    res.end(data)
   })
 })
 
