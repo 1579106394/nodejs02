@@ -15,7 +15,7 @@
       audio
     等带有 src 或者 href（link） 属性标签（具有外链的资源）的时候，浏览器会自动对这些资源发起新的请求。
    -->
-  <!-- 
+   <!-- 
       注意：在服务端中，文件中的路径就不要去写相对路径了。
       因为这个时候所有的资源都是通过 url 标识来获取的
       我的服务器开放了 /public/ 目录
@@ -31,20 +31,17 @@
 <body>
   <div class="header container">
     <div class="page-header">
-      <h1>Example page header
-        <small>Subtext for header</small>
-      </h1>
+      <h1>Example page header <small>Subtext for header</small></h1>
       <a class="btn btn-success" href="/post">发表留言</a>
     </div>
   </div>
   <div class="comments container">
     <ul class="list-group">
       {{each comments}}
-      <li class="list-group-item">{{$value.message}}</li>
-      {{/each comments}}
+      <li class="list-group-item">{{ $value.name }}说：{{ $value.message }} <span style="float: right;">{{ $value.dateTime }}</span></li>
+      {{/each}}
     </ul>
   </div>
-  <script src="/public/js/main.js"></script>
 </body>
 
 </html>

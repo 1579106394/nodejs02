@@ -6,6 +6,7 @@
 var http = require('http')
 var fs = require('fs')
 var template = require('art-template')
+var url = require('url')
 
 var comments = [
   {
@@ -32,12 +33,16 @@ var comments = [
     name: '张三4',
     message: '今天天气不错',
     dateTime: '2015-10-16'
-  },
+  }
 ]
 
 http.createServer((req, res) => {
-  var url = req.url
-  if (url === '/') {
+  // 使用url.parse方法将路径解析为一个方便操作的对象
+  var parseObj = url.parse(req.url, true)
+
+  var pathname = parseObj.pathname
+
+  if (pathname === '/') {
     fs.readFile('./views/index.html', (err, data) => {
       if (err) {
         return res.end('404 not found')
@@ -47,26 +52,40 @@ http.createServer((req, res) => {
       })
       res.end(ret)
     })
-  } else if(url.indexOf('/public/') === 0) {
+  } else if (pathname.indexOf('/public/') === 0) {
     // /public/css/main.css
     // /public/js/main.js
     // /public/lib/jquery.js
     // 统一处理
     // 如果请求路径是以/public/开头的，则我认为你要获取public中的某个资源
     // 所以我就直接可以把请求路径当做文件路径来直接进行读取
-    fs.readFile('.' + url, (err, data)=>{
-        if(err) {
-            return res.end('404 Not Found')
-        }
-        res.end(data)
-    })
-  } else if (url === '/post') {
-    fs.readFile('./views/post.html', (err, data)=>{
-      
+    fs.readFile('.' + pathname, (err, data) => {
+      if (err) {
+        return res.end('404 Not Found')
+      }
       res.end(data)
     })
+  } else if (pathname === '/post') {
+    fs.readFile('./views/post.html', (err, data) => {
+
+      res.end(data)
+    })
+  } else if (pathname === '/pinglun') {
+    // 这个时候无论 /pinglun后面是什么，我都不用担心了，因为pathname不包含问号之后的路径
+    // res.end(JSON.stringify(parseObj.query))
+    // 1.获取表单提交的数据
+    // 2.生成日期到数据对象中，存储到数组中
+    // 3.让用户重定向跳转到首页
+    var comment = parseObj.query
+    comment.dateTime = '2017-11-2 17:11:22'
+    comments.unshift(comment)
+    // 数据已经存出好了，让用户重新请求首页
+    res.statusCode = 302
+    res.setHeader('Location', '/')
+    res.end()
+    
   } else {
-    fs.readFile('./views/404.html', (err, data)=>{
+    fs.readFile('./views/404.html', (err, data) => {
       res.end(data)
     })
   }
